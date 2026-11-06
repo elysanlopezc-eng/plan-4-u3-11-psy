@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - Interactive Lesson Plan: Psychodynamic & Humanistic Approaches</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Tailwind Configuration matching Montano Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montano: {
+                            blue: '#1269A8',
+                            yellow: '#F7D615',
+                            sage: '#54887D',
+                            lightblue: '#88B5C7',
+                            olive: '#A6B046',
+                            bg: '#F2F5E9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F5E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #54887D;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1269A8;
+        }
+    </style>
+</head>
+<body class="bg-montano-bg text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-montano-blue text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <!-- Branding & Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded-lg shadow-sm flex items-center justify-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" 
+                         alt="Colegio Montano Logo" 
+                         class="h-10 w-auto object-contain"
+                         onerror="this.src='https://placehold.co/100x40/1269A8/FFFFFF?text=Montano'">
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight tracking-wide">COLEGIO MONTANO</h1>
+                    <p class="text-xs text-montano-yellow font-medium uppercase tracking-wider">Digital Interactive Board • Class Plan #4</p>
+                </div>
+            </div>
+
+            <!-- Header Info Badges -->
+            <div class="hidden lg:flex items-center space-x-4 text-xs font-medium">
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Psychology
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-graduation-cap mr-1.5"></i> 4th Bachillerato
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-calendar-day mr-1.5"></i> Unit 3 | Plan #4 | June 14 - 18
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-user-tie mr-1.5"></i> Teacher: Elysa López
+                </span>
+            </div>
+
+            <!-- Fullscreen Button -->
+            <div>
+                <button onclick="toggleFullScreen()" id="fullscreen-btn" 
+                        class="bg-montano-yellow text-montano-blue hover:bg-yellow-400 font-bold px-4 py-2 rounded-lg shadow-md transition duration-200 flex items-center space-x-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                    <i class="fa-solid fa-expand" id="fullscreen-icon"></i>
+                    <span id="fullscreen-text">Full Screen</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- METADATA & INSTITUTIONAL PEDAGOGICAL BANNER -->
+    <section class="max-w-7xl mx-auto px-4 mt-6 w-full">
+        <div class="bg-white border-l-4 border-montano-blue rounded-r-xl shadow-md p-5 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- CNB & Competency -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-bullseye mr-2 text-montano-sage"></i> CNB Competency & Learning Outcome
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    <strong class="text-montano-blue">Competency:</strong> Differentiates major psychological perspectives by analyzing how unconscious processes and conscious self-concept shape human personality and behavior.
+                </p>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    <strong class="text-montano-sage">Learning Outcome:</strong> Compares Freud's psychodynamic model (Id, Ego, Superego) with Rogers and Maslow's humanistic concepts (self-concept, self-actualization) using fictional behavioral case studies.
+                </p>
+            </div>
+
+            <!-- Montano 7 Habits -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-star mr-2 text-montano-yellow"></i> Montano Formative Habits
+                </div>
+                <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                    <li><strong class="text-montano-sage">Habit 1: Be Proactive</strong> (Take active ownership of self-actualization and personal growth).</li>
+                    <li><strong class="text-montano-sage">Habit 5: Seek First to Understand...</strong> (Empathize with individual struggles between Ideal and Real self).</li>
+                    <li><strong class="text-montano-sage">Habit 7: Sharpen the Saw</strong> (Reflect on self-concept and emotional alignment during closure).</li>
+                </ul>
+            </div>
+
+            <!-- Core Skills & Assessment Moments -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-brain mr-2 text-montano-olive"></i> Key Skills & Assessment
+                </div>
+                <div class="text-xs text-gray-700 space-y-1">
+                    <p><strong>Core Skills:</strong> Theoretical Comparison, Empathy, Analytical Thinking, Self-Awareness.</p>
+                    <p><strong>Evaluation Moments:</strong></p>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        <span class="bg-blue-100 text-montano-blue text-[10px] px-2 py-0.5 rounded font-semibold">Initial: Retrieval Quiz</span>
+                        <span class="bg-emerald-100 text-montano-sage text-[10px] px-2 py-0.5 rounded font-semibold">Formative: Fictional Comparison</span>
+                        <span class="bg-amber-100 text-montano-olive text-[10px] px-2 py-0.5 rounded font-semibold">Summative: Exit Ticket & Rubric</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN INTERACTIVE BOARD CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden flex flex-col min-h-[550px]">
+            
+            <!-- TABS NAVIGATION BAR -->
+            <div class="bg-gray-100 border-b border-gray-200 flex flex-wrap sm:flex-nowrap justify-between overflow-x-auto p-2 gap-2">
+                <button onclick="switchTab('tab1')" id="btn-tab1" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-montano-blue text-white shadow-md">
+                    <i class="fa-solid fa-brain text-montano-yellow"></i>
+                    <span>Tab I: Psychodynamic & Humanistic Models (20 min)</span>
+                </button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-user-pen text-montano-sage"></i>
+                    <span>Tab II: Fictional Case Interpretations (15 min)</span>
+                </button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-layer-group text-montano-blue"></i>
+                    <span>Tab III: Paradigm Contrast Workshop (15 min)</span>
+                </button>
+                <button onclick="switchTab('tab4')" id="btn-tab4" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-clipboard-check text-montano-olive"></i>
+                    <span>Tab IV: Exit Ticket & Evaluation (10 min)</span>
+                </button>
+            </div>
+
+            <!-- TAB CONTENT AREA -->
+            <div class="p-6 flex-grow bg-slate-50">
+                
+                <!-- TAB I: RETRIEVAL PRACTICE & DIRECT INSTRUCTION -->
+                <div id="tab1" class="tab-content active space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-yellow text-montano-blue font-extrabold px-3 py-1 rounded-lg text-sm">Phase 1</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Retrieval Practice & Core Theoretical Frameworks</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~20 Minutes</span>
+                    </div>
+
+                    <!-- Step 1: Retrieval Practice (5 min) -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-montano-sage flex items-center text-base">
+                            <i class="fa-solid fa-rotate-left mr-2 text-montano-yellow"></i> 1. Retrieval Practice: Rapid Knowledge Check (5 mins)
+                        </h3>
+                        <p class="text-sm text-gray-600">
+                            <strong>Objective:</strong> Re-activate foundational knowledge regarding personality definitions and traits from Plans 1-3.
+                        </p>
+                        <div class="bg-montano-bg p-4 rounded-lg border-l-4 border-montano-yellow text-sm space-y-2">
+                            <p class="font-semibold text-gray-800"><i class="fa-solid fa-circle-question mr-2 text-montano-blue"></i> Quick Classroom Challenge:</p>
+                            <p class="text-gray-700 italic">"What is the difference between measuring measurable personality traits (like the Big Five) vs. explaining the hidden internal drives that motivate behavior?"</p>
+                            <div class="pt-2">
+                                <button onclick="alert('Key Insight: Trait theories DESCRIBE personality (what traits exist), whereas Psychodynamic and Humanistic theories EXPLAIN WHY personality develops and functions!')" 
+                                        class="bg-montano-blue text-white px-4 py-1.5 rounded-md text-xs font-bold hover:bg-sky-800 transition">
+                                    Reveal Concept Key
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Direct Instruction (15 min) -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-6">
+                        <h3 class="font-bold text-montano-blue flex items-center text-base">
+                            <i class="fa-solid fa-chalkboard-user mr-2 text-montano-blue"></i> 2. Direct Instruction: Two Contrasting Approaches (15 mins)
+                        </h3>
+
+                        <!-- Approach A: Freud's Psychodynamic Model -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-bold text-purple-900 flex items-center">
+                                <i class="fa-solid fa-water mr-2 text-purple-700"></i> A. Freud’s Psychodynamic Approach (Unconscious Drives)
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="bg-purple-50 border border-purple-200 p-3.5 rounded-xl">
+                                    <span class="font-bold text-purple-900 block text-sm mb-1">Id (Pleasure Principle)</span>
+                                    <p class="text-gray-700">Innate, unconscious biological drives seeking immediate gratification. Unconcerned with societal rules.</p>
+                                </div>
+                                <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl">
+                                    <span class="font-bold text-sky-900 block text-sm mb-1">Ego (Reality Principle)</span>
+                                    <p class="text-gray-700">The conscious mediator. Balances the unrealistic demands of the Id with the moral constraints of the Superego.</p>
+                                </div>
+                                <div class="bg-indigo-50 border border-indigo-200 p-3.5 rounded-xl">
+                                    <span class="font-bold text-indigo-900 block text-sm mb-1">Superego (Moral Conscience)</span>
+                                    <p class="text-gray-700">Internalized societal and parental morals. Strives for perfection and instills feelings of guilt.</p>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-purple-100/60 rounded-lg text-xs text-purple-950 font-medium">
+                                <i class="fa-solid fa-icicles mr-1.5 text-purple-700"></i> <strong>Iceberg Analogy:</strong> Early childhood experiences shape unconscious conflicts that drive conscious behavior.
+                            </div>
+                        </div>
+
+                        <!-- Approach B: Humanistic Perspective -->
+                        <div class="space-y-3 pt-3 border-t border-gray-200">
+                            <h4 class="text-sm font-bold text-emerald-900 flex items-center">
+                                <i class="fa-solid fa-seedling mr-2 text-emerald-700"></i> B. Humanistic Perspective: Rogers & Maslow (Self-Concept & Growth)
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                                <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl space-y-1.5">
+                                    <span class="font-bold text-emerald-900 block text-sm">Carl Rogers: Self-Concept & Incongruence</span>
+                                    <p class="text-gray-700">Focuses on subjective experience. Personality is shaped by alignment between:</p>
+                                    <ul class="list-disc list-inside text-emerald-950 space-y-0.5">
+                                        <li><strong>Real Self:</strong> Who you actually are right now.</li>
+                                        <li><strong>Ideal Self:</strong> Who you wish or strive to become.</li>
+                                    </ul>
+                                    <p class="text-[11px] text-emerald-800 pt-1"><em>Unconditional Positive Regard fosters healthy congruence.</em></p>
+                                </div>
+
+                                <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl space-y-1.5">
+                                    <span class="font-bold text-amber-900 block text-sm">Abraham Maslow: Self-Actualization</span>
+                                    <p class="text-gray-700">Humans are inherently driven toward personal growth and fulfilling their ultimate potential.</p>
+                                    <p class="text-gray-700">Personality evolves as lower-level biological & emotional needs are satisfied in the Hierarchy of Needs.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TAB II: INDIVIDUAL WORK / CASE ANALYSIS -->
+                <div id="tab2" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-sage text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 2</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Individual Analysis: Interpreting Fictional Character Behavior</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~15 Minutes</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <p class="text-sm text-gray-700">
+                            <strong>Instructions:</strong> Read the fictional character vignettes below. Analyze how a 
+                            <span class="font-bold text-purple-800">Psychodynamic Psychologist</span> vs. a 
+                            <span class="font-bold text-emerald-800">Humanistic Psychologist</span> would explain the root cause of the character's behavior. Click to check key insights.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Case Study 1 -->
+                            <div class="border border-gray-200 rounded-xl p-4 bg-white hover:shadow-md transition">
+                                <span class="bg-purple-100 text-purple-900 text-xs px-2.5 py-1 rounded-md font-bold uppercase">Character Profile #1: Daniel</span>
+                                <p class="text-xs text-gray-800 mt-2 font-medium leading-relaxed">
+                                    "Daniel works 80 hours a week as a perfectionist manager. He constantly fears failing, refuses to delegate tasks, and feels intense guilt whenever he takes a break, despite being extremely successful."
+                                </p>
+                                <div class="mt-4">
+                                    <button onclick="toggleAccordion('acc-t4-1')" class="w-full bg-montano-lightblue text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-between hover:bg-montano-blue transition">
+                                        <span><i class="fa-solid fa-magnifying-glass mr-1.5"></i> Reveal Dual Interpretations</span>
+                                        <i class="fa-solid fa-chevron-down" id="acc-t4-1-icon"></i>
+                                    </button>
+                                    <div id="acc-t4-1" class="hidden mt-2 p-3 bg-slate-50 text-xs rounded-lg border border-gray-300 space-y-2">
+                                        <p><strong class="text-purple-800"><i class="fa-solid fa-user-ninja mr-1"></i> Psychodynamic View:</strong> Daniel has an overly punitive, harsh <strong>Superego</strong> driving unconscious guilt stemming from early childhood pressure to earn perfection.</p>
+                                        <p><strong class="text-emerald-800"><i class="fa-solid fa-seedling mr-1"></i> Humanistic View:</strong> Daniel suffers from <strong>incongruence</strong>; he operates under conditional worth, believing he is only worthy of love when achieving flawless results.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Case Study 2 -->
+                            <div class="border border-gray-200 rounded-xl p-4 bg-white hover:shadow-md transition">
+                                <span class="bg-emerald-100 text-emerald-900 text-xs px-2.5 py-1 rounded-md font-bold uppercase">Character Profile #2: Clara</span>
+                                <p class="text-xs text-gray-800 mt-2 font-medium leading-relaxed">
+                                    "Clara abandoned a lucrative corporate career to move to a small town and open a community art workshop. She feels deeply aligned with her true values for the first time in her life."
+                                </p>
+                                <div class="mt-4">
+                                    <button onclick="toggleAccordion('acc-t4-2')" class="w-full bg-montano-lightblue text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-between hover:bg-montano-blue transition">
+                                        <span><i class="fa-solid fa-magnifying-glass mr-1.5"></i> Reveal Dual Interpretations</span>
+                                        <i class="fa-solid fa-chevron-down" id="acc-t4-2-icon"></i>
+                                    </button>
+                                    <div id="acc-t4-2" class="hidden mt-2 p-3 bg-slate-50 text-xs rounded-lg border border-gray-300 space-y-2">
+                                        <p><strong class="text-emerald-800"><i class="fa-solid fa-seedling mr-1"></i> Humanistic View:</strong> Clara is pursuing <strong>Self-Actualization</strong> (Maslow) and achieving congruence between her Real Self and Ideal Self (Rogers).</p>
+                                        <p><strong class="text-purple-800"><i class="fa-solid fa-user-ninja mr-1"></i> Psychodynamic View:</strong> Clara is using <strong>Sublimation</strong> (a mature defense mechanism) to redirect repressed unconscious creative impulses into socially productive artistic work.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB III: COOPERATIVE WORK / PARADIGM CONTRAST -->
+                <div id="tab3" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-blue text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 3</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Cooperative Paradigm Contrast Workshop</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~15 Minutes</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <div class="bg-sky-50 border-l-4 border-montano-blue p-4 rounded-r-lg text-xs text-gray-700">
+                            <h4 class="font-bold text-montano-blue text-sm mb-1"><i class="fa-solid fa-users mr-2"></i> Team Challenge: Psychodynamic vs. Humanistic Comparison Matrix</h4>
+                            <p>In teams of 4, assign roles (<em>Leader, Recorder, Timekeeper, Spokesperson</em>). Compare the two major paradigms in your notebooks using the structured dimensions below.</p>
+                        </div>
+
+                        <!-- Comparison Matrix Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse border border-gray-200 rounded-lg">
+                                <thead>
+                                    <tr class="bg-montano-blue text-white">
+                                        <th class="p-2.5 border">Analytical Dimension</th>
+                                        <th class="p-2.5 border bg-purple-900">Psychodynamic Approach (Freud)</th>
+                                        <th class="p-2.5 border bg-emerald-800">Humanistic Approach (Rogers / Maslow)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 bg-white text-gray-700">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold text-montano-blue border">Core View of Human Nature</td>
+                                        <td class="p-2.5 border">Driven by unconscious biological impulses & conflict.</td>
+                                        <td class="p-2.5 border">Inherently good, growth-oriented, and self-determining.</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold text-montano-blue border">Primary Determinant of Behavior</td>
+                                        <td class="p-2.5 border">Unconscious motives & early childhood experiences.</td>
+                                        <td class="p-2.5 border">Conscious self-concept & desire for personal growth.</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold text-montano-blue border">View of Free Will</td>
+                                        <td class="p-2.5 border">Deterministic (behavior governed by hidden forces).</td>
+                                        <td class="p-2.5 border">High Free Will (individuals choose their self-direction).</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold text-montano-blue border">Ultimate Goal of Personality</td>
+                                        <td class="p-2.5 border">Bring unconscious conflicts into conscious awareness.</td>
+                                        <td class="p-2.5 border">Achieve Congruence and Self-Actualization.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB IV: PLENARY, EXIT TICKET & RUBRIC -->
+                <div id="tab4" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-olive text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 4</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Plenary Quiz, 5-Min Exit Ticket & Assessment</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~10 Minutes</span>
+                    </div>
+
+                    <!-- Step 1: Plenary Quiz (5 min) -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-montano-blue flex items-center text-base">
+                            <i class="fa-solid fa-gamepad mr-2 text-montano-yellow"></i> Interactive Plenary Trivia
+                        </h3>
+                        <div class="bg-montano-bg p-4 rounded-xl border border-gray-300 space-y-3">
+                            <p class="font-bold text-sm text-gray-800">
+                                Question: According to Carl Rogers, what happens when there is a large gap between a person's "Real Self" and their "Ideal Self"?
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="trivia-options-p4">
+                                <button onclick="checkAnswerP4(this, false)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">A) The Id completely takes control</button>
+                                <button onclick="checkAnswerP4(this, true)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">B) Incongruence and psychological anxiety occur</button>
+                                <button onclick="checkAnswerP4(this, false)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">C) Instant Self-Actualization is achieved</button>
+                            </div>
+                            <div id="trivia-feedback-p4" class="hidden text-xs font-bold mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: 5-Minute Exit Ticket -->
+                    <div class="bg-montano-bg border-l-4 border-montano-olive p-4 rounded-r-xl space-y-2">
+                        <h4 class="font-bold text-sm text-montano-blue flex items-center">
+                            <i class="fa-solid fa-pen-to-square mr-2"></i> 5-Minute Exit Ticket (Individual Closure)
+                        </h4>
+                        <p class="text-xs text-gray-700">
+                            On a physical slip or digital exit note, complete the following prompt:
+                        </p>
+                        <p class="text-xs text-montano-blue font-semibold italic bg-white p-2.5 rounded-lg border border-gray-200">
+                            "One key SIMILARITY between Psychodynamic and Humanistic theories is [______], but one major DIFFERENCE is that Psychodynamic theory focuses on [______] while Humanistic theory emphasizes [______]."
+                        </p>
+                    </div>
+
+                    <!-- Plenary Evaluation Rubric -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-montano-blue flex items-center text-base">
+                                <i class="fa-solid fa-list-check mr-2 text-montano-sage"></i> Plenary & Exit Ticket Evaluation Rubric
+                            </h3>
+                            <span class="text-xs bg-montano-yellow text-montano-blue font-bold px-2.5 py-1 rounded">Summative Checklist</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-montano-blue text-white">
+                                        <th class="p-2.5 rounded-tl-lg">Criteria</th>
+                                        <th class="p-2.5">Excellent (4 pts)</th>
+                                        <th class="p-2.5">Satisfactory (3 pts)</th>
+                                        <th class="p-2.5">Needs Work (2 pts)</th>
+                                        <th class="p-2.5 rounded-tr-lg">Check</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 text-gray-700">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">1. Paradigm Mastery</td>
+                                        <td class="p-2.5">Accurately explains both Freud's unconscious models and Rogers/Maslow's growth models.</td>
+                                        <td class="p-2.5">Explains models with minor conceptual vagueness.</td>
+                                        <td class="p-2.5">Confuses psychodynamic and humanistic terms.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">2. Case Application</td>
+                                        <td class="p-2.5">Provides compelling dual theoretical explanations for fictional character cases.</td>
+                                        <td class="p-2.5">Applies one perspective clearly, but struggles with the other.</td>
+                                        <td class="p-2.5">Unable to apply theoretical concepts to case studies.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">3. Exit Ticket Closure</td>
+                                        <td class="p-2.5">Clearly articulates key similarity and fundamental difference on exit ticket.</td>
+                                        <td class="p-2.5">Identifies difference but misses similarity.</td>
+                                        <td class="p-2.5">Incomplete or inaccurate exit ticket response.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-montano-blue text-white py-3 text-center text-xs font-medium">
+        <p>Colegio Montano • Plan #4 • Unit 3 • Psychology • Aligned with CNB Guatemala</p>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-montano-blue', 'text-white', 'shadow-md');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) activeTab.classList.add('active');
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                activeBtn.classList.add('bg-montano-blue', 'text-white', 'shadow-md');
+            }
+        }
+
+        function toggleAccordion(id) {
+            const acc = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (acc.classList.contains('hidden')) {
+                acc.classList.remove('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-up';
+            } else {
+                acc.classList.add('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-down';
+            }
+        }
+
+        function checkAnswerP4(button, isCorrect) {
+            const feedback = document.getElementById('trivia-feedback-p4');
+            const buttons = document.querySelectorAll('#trivia-options-p4 button');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-emerald-200', 'bg-rose-200', 'text-emerald-900', 'text-rose-900');
+            });
+
+            feedback.classList.remove('hidden', 'text-emerald-700', 'text-rose-700');
+
+            if (isCorrect) {
+                button.classList.add('bg-emerald-200', 'text-emerald-900');
+                feedback.classList.add('text-emerald-700');
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Correct! Incongruence between the Real Self and Ideal Self causes anxiety and emotional tension in Rogerian humanistic psychology.';
+            } else {
+                button.classList.add('bg-rose-200', 'text-rose-900');
+                feedback.classList.add('text-rose-700');
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> Incorrect. A discrepancy between the Real and Ideal self results in incongruence and anxiety.';
+            }
+        }
+
+        function toggleFullScreen() {
+            const btnText = document.getElementById('fullscreen-text');
+            const btnIcon = document.getElementById('fullscreen-icon');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    if (btnText) btnText.textContent = "Exit Fullscreen";
+                    if (btnIcon) btnIcon.className = "fa-solid fa-compress";
+                }).catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().then(() => {
+                        if (btnText) btnText.textContent = "Full Screen";
+                        if (btnIcon) btnIcon.className = "fa-solid fa-expand";
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
